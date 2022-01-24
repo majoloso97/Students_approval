@@ -42,7 +42,7 @@ with st.expander("Set data for prediction"):
         paes = st.slider("Set student's PAES", float(limits['paes'][0]),float(limits['paes'][1]))
         sex = st.selectbox("Set student's sex", limits['sex'])
     with col2:
-        age = st.slider("Set student's age", limits['age'][0],limits['age'][1])
+        age = st.slider("Set student's age", float(limits['age'][0]),float(limits['age'][1]))
         
 with st.expander("Check your prediction:"):
     st.write('your prediction')
