@@ -29,7 +29,7 @@ def get_data(path):
     
     return data, limits
     
-path = 'processed_data.csv'
+path = 'https://github.com/MarvinLopezOsorio/Students_approval/raw/main/processed_data.csv'
 data, limits = get_data(path)
 
 #limits['sex'][0]
