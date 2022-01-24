@@ -32,8 +32,6 @@ def get_data(path):
 path = 'https://github.com/MarvinLopezOsorio/Students_approval/raw/main/processed_data.csv'
 data, limits = get_data(path)
 
-#limits['sex'][0]
-
 st.title('Titulo del app')
 
 #['sex', 'town', 'age', 'paes', 'major', 'faculty', 'VR', 'SR', 'AR', 'NA', 'MR', 'CSA', 'habits', 'sch_type']
@@ -41,7 +39,7 @@ st.title('Titulo del app')
 with st.expander("Set data for prediction"):
     col1, col2 = st.columns(2)
     with col1:
-        paes = st.slider("Set student's PAES", limits['paes'][0],limits['paes'][1])
+        paes = st.slider("Set student's PAES", float(limits['paes'][0]),float(limits['paes'][1]))
         sex = st.selectbox("Set student's sex", limits['sex'])
     with col2:
         age = st.slider("Set student's age", limits['age'][0],limits['age'][1])
