@@ -3,6 +3,23 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+#from jupyterthemes import jtplot
+
+# choose which theme to inherit plotting style from
+# onedork | grade3 | oceans16 | chesterish | monokai | solarizedl | solarizedd
+#jtplot.style(theme='chesterish')
+
+rc={'figure.facecolor':'#0f1420',
+    'xtick.color':'#ebebeb',
+    'ytick.color':'#ebebeb',
+    'axes.labelcolor':'#ebebeb',
+    'text.color':'#ebebeb',
+    'figure.figsize':(3,3)}
+
+sns.set_theme(palette='dark', rc=rc)
 
 #Set configuration of the app
 st.set_page_config('Predictor','favicon.png','wide')
@@ -28,8 +45,8 @@ def get_data(path):
         limits[col] = values
     
     return data, limits
-    
-path = './processed_data.csv'
+
+path = 'processed_data.csv'
 data, limits = get_data(path)
 
 st.title('Titulo del app')
@@ -39,6 +56,7 @@ st.title('Titulo del app')
 with st.expander("Set data for prediction"):
     col1, col2 = st.columns(2)
     with col1:
+        st.pyplot(sns.catplot(x='sex',y='paes',data=data,kind='bar'))
         paes = st.slider("Set student's PAES", float(limits['paes'][0]),float(limits['paes'][1]))
         sex = st.selectbox("Set student's sex", limits['sex'])
     with col2:
