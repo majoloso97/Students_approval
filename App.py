@@ -29,7 +29,7 @@ def get_data(path):
     
     return data, limits
     
-path = 'https://github.com/MarvinLopezOsorio/Students_approval/raw/main/processed_data.csv'
+path = './processed_data.csv'
 data, limits = get_data(path)
 
 st.title('Titulo del app')
