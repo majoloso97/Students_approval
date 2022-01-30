@@ -61,18 +61,55 @@ with st.expander('Análisis exploratorio'):
     with col2:
         st.pyplot(sns.catplot(x='sex',y='grade',data=data,kind='bar',palette='colorblind'))
   
-        
+
+def create_imput_widget(variable, var_type='float'):
+    widget_label = "Set student's " + variable
+    if var_type == 'cat':
+        return st.selectbox(widget_label, limits[variable])
+    elif var_type == 'int':
+        return st.slider(widget_label, int(limits[variable][0]), int(limits[variable][1]))
+    else:
+        return st.slider(widget_label, float(limits[variable][0]), float(limits[variable][1]))
+
+to_predict = {}
+
 with st.expander('Definición de valores para predecir'):
-    col1, col2 = st.columns(2)
+    c1, c2, c3 = st.columns((5,10,6))
+    with c1:
+        st.subheader('Variables numéricas')
+    with c2:
+        st.subheader('Variables categóricas')    
+    with c3:
+        st.subheader('Variables psicopedagógicas')
+    
+    col1, col2, col3, col4 = st.columns((5,10,3,3))
     with col1:
-        paes = st.slider("Set student's PAES", float(limits['paes'][0]),float(limits['paes'][1]))
-        sex = st.selectbox("Set student's sex", limits['sex'])
+        to_predict['age'] = create_imput_widget('age','int')
+        to_predict['paes'] = create_imput_widget('paes','float')
+        to_predict['habits'] = create_imput_widget('habits','int')
     with col2:
-        age = st.slider("Set student's age", float(limits['age'][0]),float(limits['age'][1]))
+        to_predict['sex'] = create_imput_widget('sex', 'cat')
+        to_predict['town'] = create_imput_widget('town', 'cat')
+        to_predict['faculty'] = create_imput_widget('faculty', 'cat')
+        to_predict['major'] = create_imput_widget('major', 'cat')
+        to_predict['sch_type'] = create_imput_widget('sch_type', 'cat')
+    with col3:
+        to_predict['VR'] = create_imput_widget('VR','int')
+        to_predict['SR'] = create_imput_widget('SR','int')
+        to_predict['AR'] = create_imput_widget('AR','int')
+    with col4:
+        to_predict['NA'] = create_imput_widget('NA','int')
+        to_predict['MR'] = create_imput_widget('MR','int')
+        to_predict['CSA'] = create_imput_widget('CSA','int')
 
 
-with st.expander("Resultados de la predicción"):
-    st.write('your prediction')
+
+#with st.expander("Resultados de la predicción"):
+file = open('model.pkl', 'rb')
+model = pkl.load(file)
+
+df_to_predict = pd.DataFrame(to_predict)
+st.write(model.predict(df_to_predict))
     
     
     
