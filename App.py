@@ -64,3 +64,10 @@ with st.expander("Set data for prediction"):
         
 with st.expander("Check your prediction:"):
     st.write('your prediction')
+    
+    
+    
+    
+    
+    
+    
