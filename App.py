@@ -5,25 +5,25 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
+import cloudpickle as pkl
 
-#from jupyterthemes import jtplot
-
-# choose which theme to inherit plotting style from
-# onedork | grade3 | oceans16 | chesterish | monokai | solarizedl | solarizedd
-#jtplot.style(theme='chesterish')
-
-rc={'figure.facecolor':'#0f1420',
+# Set custom theme for plots
+rc={
+    'figure.facecolor':'#0f1420',
+    'axes.labelcolor':'#ebebeb',
+    'axes.facecolor':'#373a44',
     'xtick.color':'#ebebeb',
     'ytick.color':'#ebebeb',
-    'axes.labelcolor':'#ebebeb',
-    'text.color':'#ebebeb',
-    'figure.figsize':(3,3)}
+    'ytick.labelcolor':'#ebebeb',
+    'text.color':'#ebebeb'
+    }
 
 sns.set_theme(palette='dark', rc=rc)
 
-#Set configuration of the app
+#Set global configuration of the st app
 st.set_page_config('Predictor','favicon.png','wide')
 
+#
 @st.cache(persist=True)
 def get_data(path):
     '''Function to get processed data for EDA and to populate controls'''
@@ -49,20 +49,29 @@ def get_data(path):
 path = 'processed_data.csv'
 data, limits = get_data(path)
 
-st.title('Titulo del app')
+#App building
+st.title('Análisis predictivo de aprobación de estudiantes')
 
 #['sex', 'town', 'age', 'paes', 'major', 'faculty', 'VR', 'SR', 'AR', 'NA', 'MR', 'CSA', 'habits', 'sch_type']
 
-with st.expander("Set data for prediction"):
+with st.expander('Análisis exploratorio'):
     col1, col2 = st.columns(2)
     with col1:
-        st.pyplot(sns.catplot(x='sex',y='paes',data=data,kind='bar'))
+        st.pyplot(sns.catplot(x='sex',y='paes',data=data,kind='bar',palette='colorblind'))
+    with col2:
+        st.pyplot(sns.catplot(x='sex',y='grade',data=data,kind='bar',palette='colorblind'))
+  
+        
+with st.expander('Definición de valores para predecir'):
+    col1, col2 = st.columns(2)
+    with col1:
         paes = st.slider("Set student's PAES", float(limits['paes'][0]),float(limits['paes'][1]))
         sex = st.selectbox("Set student's sex", limits['sex'])
     with col2:
         age = st.slider("Set student's age", float(limits['age'][0]),float(limits['age'][1]))
-        
-with st.expander("Check your prediction:"):
+
+
+with st.expander("Resultados de la predicción"):
     st.write('your prediction')
     
     
