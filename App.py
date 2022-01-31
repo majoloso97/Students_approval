@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import cloudpickle as pkl
+import pickle
 
 # Set custom theme for plots
 rc={
@@ -103,14 +103,22 @@ with st.expander('Definición de valores para predecir'):
         to_predict['CSA'] = create_imput_widget('CSA','int')
 
 
-
 #with st.expander("Resultados de la predicción"):
-file = open('model.pkl', 'rb')
-model = pkl.load(file)
+model = pickle.load(open('model.pkl','rb'))
+
+for k in to_predict.keys():
+    bufer = []
+    bufer.append(to_predict[k])
+    to_predict[k] = bufer
 
 df_to_predict = pd.DataFrame(to_predict)
-st.write(model.predict(df_to_predict))
+st.dataframe(df_to_predict)
+
+prediction = model.predict(df_to_predict)
+prediction_prob = model.predict_proba(df_to_predict)
     
+prediction
+prediction_prob
     
     
     
